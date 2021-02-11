@@ -1088,6 +1088,7 @@ namespace UnityEngine.Rendering.HighDefinition
             public TextureHandle    input;
             public TextureHandle    output;
             public int              mipIndex;
+            public bool             xrTexture;
         }
 
         void PushFullScreenLightingDebugTexture(RenderGraph renderGraph, TextureHandle input)
@@ -1123,6 +1124,7 @@ namespace UnityEngine.Rendering.HighDefinition
             using (var builder = renderGraph.AddRenderPass<PushFullScreenDebugPassData>("Push Full Screen Debug", out var passData))
             {
                 passData.mipIndex = mipIndex;
+                passData.xrTexture = xrTexture;
                 passData.input = builder.ReadTexture(input);
                 passData.output = builder.UseColorBuffer(renderGraph.CreateTexture(new TextureDesc(Vector2.one, true, true)
                     { colorFormat = GraphicsFormat.R16G16B16A16_SFloat, name = "DebugFullScreen" }), 0);
@@ -1130,7 +1132,7 @@ namespace UnityEngine.Rendering.HighDefinition
                 builder.SetRenderFunc(
                     (PushFullScreenDebugPassData data, RenderGraphContext ctx) =>
                     {
-                        if (xrTexture)
+                        if (data.xrTexture)
                         {
                             if (data.mipIndex != -1)
                                 HDUtils.BlitCameraTexture(ctx.cmd, data.input, data.output, data.mipIndex);
