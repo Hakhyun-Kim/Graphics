@@ -72,5 +72,5 @@ The properties visible in the Inspector change depending on whether or not you e
 
 ### Ray-traced global illumination
 
-Currently, ray tracing in HDRP does not support [decals](decal.md). This means that ray-traced global illumination does not affect decals in your Scene.
-When rendering [Reflection Probes](Reflection-Probe.md) screen space global illumination is not supported.
+* Currently, ray tracing in HDRP does not support [decals](decal.md). This means that ray-traced global illumination does not affect decals in your Scene.
+* SSGI/RTGI does not appear in [Reflection Probes](Reflection-Probe.md) or [Planar Reflection Probes](Planar-Reflection-Probe.md).
