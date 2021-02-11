@@ -2,7 +2,9 @@
 
 The **Screen Space Illumination** (SSGI) override is a High Definition Render Pipeline (HDRP) feature that uses the depth and color buffer of the screen to calculate diffuse light bounces.
 
-HDRP implements [ray-traced global illumination](Ray-Traced-Global-Illumination.md) on top of this override. This means that the properties visible in the Inspector change depending on whether or not you enable ray tracing.
+HDRP implements [ray-traced global illumination](Ray-Traced-Global-Illumination.md) (RTGI) on top of this override. This means that the properties visible in the Inspector change depending on whether or not you enable ray tracing.
+
+Both SSGI and RTGI completely replace baked [lightmaps](https://docs.unity3d.com/Manual/Lightmapping.html). When a Camera is in a Volume that uses SSGI/RTGI, HDRP ignores baked lightmaps and instead uses the SSGI/RTGI override to render global illumination for that Camera.
 
 ![](Images/HDRPFeatures-SSGI.png)
 
@@ -20,6 +22,8 @@ HDRP uses the [Volume](Volumes.md) framework to calculate SSGI, so to enable and
 1. In the Scene or Hierarchy view, select a GameObject that contains a Volume component to view it in the Inspector.
 2. In the Inspector, navigate to **Add Override > Lighting** and click **Screen Space Global Illumination**.
    HDRP now calculates SSGI for any Camera this Volume affects.
+
+Compared to other global illumination solutions, such as lightmaps, SSGI is a relatively resource intensive effect to process. This makes it more suited for film, especially since it allows for fast iteration because there is no need to constantly re-bake lightmaps. Realtime applications such as games can still use this effect but it is best to set properties such as **Quality** and **Ray Steps** to lower values to increase performance.
 
 [!include[](snippets/volume-override-api.md)]
 
