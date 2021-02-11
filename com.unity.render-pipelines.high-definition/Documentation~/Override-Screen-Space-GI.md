@@ -35,17 +35,14 @@ The properties visible in the Inspector change depending on whether or not you e
 
 ### Screen-space
 
-![](Images/Override-ScreenSpaceGlobalIllumination1.png)
-
-| **Property**         | **Description**                                              |
-| -------------------- | ------------------------------------------------------------ |
-| **Enable**           | Indicates whether HDRP processes SSGI for Cameras in the influence of this effect's Volume. |
-| **Ray Tracing**      | Indicates whether HDRP uses ray tracing to calculate global illumination. If you enable this property, it completely changes the implementation for this Volume override and exposes a new set of properties to control the ray-traced global illumination.<br/>For information on ray-traced global illumination, see [ray-traced global illumination](Ray-Traced-Global-Illumination.md).<br/>For information on the properties that control the ray-traced global illumination, see the [Ray-traced](#ray-traced) properties section below. |
-| **Quality**          | Specifies the overall quality of the effect. The higher the quality, the more resource-intensive the effect is to process. |
-| **Full Resolution**  | Toggles whether HDRP calculates SSGI at full resolution.     |
-| **Ray Steps**        | The number of ray steps to use to calculate SSGI. If you set this to a higher value, the quality of the effect improves, however it is more resource intensive to process. |
-| **Filter Radius**    | The size of the filter use to smooth the effect after raymarching. Higher value mean blurrier result and is more resource intensive. |
-| **Depth Tolerance**  | Use the slider to control the tolerance when comparing the depth of the GameObjects on screen and the depth buffer. Because the SSR algorithm can not distinguish thin GameObjects from thick ones, this property helps trace rays behind GameObjects. The algorithm applies this property to every GameObject uniformly. |
+| **Property**        | **Description**                                              |
+| ------------------- | ------------------------------------------------------------ |
+| **Enable**          | Indicates whether HDRP processes SSGI for Cameras in the influence of this effect's Volume. |
+| **Ray Tracing**     | Indicates whether HDRP uses ray tracing to calculate global illumination. If you enable this property, it completely changes the implementation for this Volume override and exposes a new set of properties to control the ray-traced global illumination.<br/>For information on ray-traced global illumination, see [ray-traced global illumination](Ray-Traced-Global-Illumination.md).<br/>For information on the properties that control the ray-traced global illumination, see the [Ray-traced](#ray-traced) properties section below. |
+| **Quality**         | Specifies the overall quality of the effect. The higher the quality, the more resource-intensive the effect is to process. |
+| **Ray Steps**       | The number of ray steps to use to calculate SSGI. If you set this to a higher value, the quality of the effect improves, however it is more resource intensive to process. |
+| **Filter Radius**   | The size of the filter use to smooth the effect after raymarching. Higher value mean blurrier result and is more resource intensive. |
+| **Depth Tolerance** | Use the slider to control the tolerance when comparing the depth of the GameObjects on screen and the depth buffer. Because the SSR algorithm can not distinguish thin GameObjects from thick ones, this property helps trace rays behind GameObjects. The algorithm applies this property to every GameObject uniformly. |
 
 ### Ray-traced
 
