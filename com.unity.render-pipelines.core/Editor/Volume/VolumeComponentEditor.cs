@@ -83,8 +83,6 @@ namespace UnityEditor.Rendering
             public static GUIContent noneText { get; } = EditorGUIUtility.TrTextContent("NONE", "Toggle all overrides off.");
 
             public static string toggleAllText { get; } = L10n.Tr("Toggle All");
-
-            public static GUIStyle onGUIStyle = new GUIStyle();
         }
 
         Vector2? m_OverrideToggleSize;
@@ -189,10 +187,7 @@ namespace UnityEditor.Rendering
 
             // Look for all the valid parameter drawers
             var types = CoreUtils.GetAllTypesDerivedFrom<VolumeParameterDrawer>()
-                .Where(
-                    t => t.IsDefined(typeof(VolumeParameterDrawerAttribute), false)
-                         && !t.IsAbstract
-                );
+                .Where(t => t.IsDefined(typeof(VolumeParameterDrawerAttribute), false) && !t.IsAbstract);
 
             // Store them
             foreach (var type in types)
@@ -290,18 +285,20 @@ namespace UnityEditor.Rendering
             GetFields(target, fields);
 
             m_Parameters = fields
-                .Select(t => {
-                var name = "";
+                .Select(t =>
+                {
+                    var name = "";
                     var order = 0;
-                var attr = (DisplayInfoAttribute[])t.Item1.GetCustomAttributes(typeof(DisplayInfoAttribute), true);
+                    var (fieldInfo, serializedProperty) = t;
+                    var attr = (DisplayInfoAttribute[])fieldInfo.GetCustomAttributes(typeof(DisplayInfoAttribute), true);
                     if (attr.Length != 0)
                     {
                         name = attr[0].name;
                         order = attr[0].order;
                     }
 
-                var parameter = new SerializedDataParameter(t.Item2);
-                return (new GUIContent(name), order, parameter);
+                    var parameter = new SerializedDataParameter(serializedProperty);
+                    return (new GUIContent(name), order, parameter);
                 })
                 .OrderBy(t => t.order)
                 .ToList();
@@ -317,7 +314,7 @@ namespace UnityEditor.Rendering
         internal void OnInternalInspectorGUI()
         {
             serializedObject.Update();
-            using (new EditorGUILayout.VerticalScope(Styles.onGUIStyle))
+            using (new EditorGUILayout.VerticalScope())
             {
                 TopRowFields();
                 OnInspectorGUI();
@@ -474,11 +471,11 @@ namespace UnityEditor.Rendering
                         DrawHeader(headerAttribute.header);
                         break;
                     case TooltipAttribute tooltipAttribute:
-                    {
-                        if (string.IsNullOrEmpty(title.tooltip))
-                            title.tooltip = tooltipAttribute.tooltip;
-                        break;
-                    }
+                        {
+                            if (string.IsNullOrEmpty(title.tooltip))
+                                title.tooltip = tooltipAttribute.tooltip;
+                            break;
+                        }
                     case InspectorNameAttribute inspectorNameAttribute:
                         title.text = inspectorNameAttribute.displayName;
                         break;
@@ -525,7 +522,7 @@ namespace UnityEditor.Rendering
         private void DrawPropertyField(SerializedDataParameter property, GUIContent title)
         {
             HandleDecorators(property, title);
-            
+
             // Custom parameter drawer
             s_ParameterDrawers.TryGetValue(property.referenceType, out VolumeParameterDrawer drawer);
 
